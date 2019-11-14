@@ -5,7 +5,14 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
 
-class HomeScreen extends Component {
+class HomeScreen extends Component 
+{
+    handleNewList = () => 
+    {
+        console.log(this.todolists);
+        var todoList = '';
+
+    }
 
     render() {
         if (!this.props.auth.uid) {
@@ -24,11 +31,11 @@ class HomeScreen extends Component {
                             @todo<br />
                             List Maker
                         </div>
-                        
+
                         <div className="home_new_list_container">
-                                <button className="home_new_list_button" onClick={this.handleNewList}>
-                                    Create a New To Do List
-                                </button>
+                            <button className="home_new_list_button" onClick={this.handleNewList}>
+                                Create a New To Do List
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -39,13 +46,13 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
     };
 };
 
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+        { collection: 'todoLists' },
     ]),
 )(HomeScreen);
