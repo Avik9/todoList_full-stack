@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
+import { NavLink, Route } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
 import { firestoreConnect } from 'react-redux-firebase';
+
+import HomeScreen from '../home_screen/HomeScreen';
+
+var addCard = require('./../../images/Add.png');
 
 class ListScreen extends Component {
     state = {
@@ -20,11 +24,33 @@ class ListScreen extends Component {
         }));
     }
 
+    createListItemCard = () => {
+        console.log("Creating a new item");
+        var newCard = {
+            description: "No Description",
+            assigned_to: "No Assigned to",
+            due_date: "",
+            completed: true,
+
+        }
+        
+        console.log("New Card: " + newCard.assigned_to);
+        console.log(this.state);
+        this.props.firestore.collection('todoLists').add(newCard);
+        // this.props.todoList.add(newCard)
+        console.log(this.props.todoList);
+    }
+
+    deleteList = () => {
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).delete();
+        this.props.history.push('/');
+    }
+
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
         if (!auth.uid) {
-            return <Redirect to="/" />;
+            return <Route exact path="/" component={HomeScreen} />
         }
 
         return (
@@ -38,7 +64,11 @@ class ListScreen extends Component {
                     <label class="active" htmlFor="owner">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
                 </div>
+                <div onClick={() => this.deleteList()}>&#128465;</div>
                 <ItemsList todoList={todoList} />
+                <div className='center' onClick={this.createListItemCard}>
+                    <img src={addCard} alt=""/>
+                </div>
             </div>
         );
     }
