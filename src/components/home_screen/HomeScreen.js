@@ -14,14 +14,10 @@ class HomeScreen extends Component
             name: '(No Name)',
             owner: '(No Owner)',
         }
-        var lists = this.props.firestore.collection('todoLists');
-        lists.add(todoList);
-
-        // this.props.firestore.collection('todoLists').doc(this.props.todoList.id);
-        // console.log(this.props.firestore.collection('todoLists').doc(this.props.todoList.id));
-        console.log(lists.id);
-
-        // this.props.history.push('/todoList/')
+        this.props.firestore.collection('todoLists').add(todoList).then(ref => 
+            {
+                this.props.history.push('/todoList/' + ref.id);
+            });
     }
 
     render() {

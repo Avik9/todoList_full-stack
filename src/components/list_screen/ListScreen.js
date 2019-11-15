@@ -28,17 +28,17 @@ class ListScreen extends Component {
         console.log("Creating a new item");
         var newCard = {
             description: "No Description",
-            assigned_to: "No Assigned to",
+            assigned_to: "No One",
             due_date: "",
             completed: true,
 
         }
         
-        console.log("New Card: " + newCard.assigned_to);
+        console.log("New Card: " + newCard.description);
         console.log(this.state);
-        this.props.firestore.collection('todoLists').add(newCard);
+        // this.props.firestore.collection('todoLists').doc(this.props.todoList).items.push(newCard);
         // this.props.todoList.add(newCard)
-        console.log(this.props.todoList);
+        this.props.todoList.items.push(newCard)
     }
 
     deleteList = () => {
@@ -54,17 +54,23 @@ class ListScreen extends Component {
         }
 
         return (
-            <div className="container white">
-                <h5 className="grey-text text-darken-3">Todo List</h5>
-                <div className="input-field">
-                    <label class="active" htmlFor="name">Name</label>
+            <div className="container white row">
+                <h5 className="grey-text text-darken-3">Todo List
+                    <div className ="right" onClick={() => this.deleteList()}>&#128465;</div>
+                </h5>
+                <div className="input-field col s6">
+                    <label class="active" for="name">Name</label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
                 </div>
-                <div className="input-field">
+                <div className="input-field col s6">
                     <label class="active" htmlFor="owner">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
                 </div>
-                <div onClick={() => this.deleteList()}>&#128465;</div>
+                <div className="row">
+                    <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
+                    <div className="col s3" onClick={this.sortItemsByDueDate}>Due Date</div>
+                    <div className="col s3" onClick={this.sortItemsByStatus}>Status</div>
+                </div>
                 <ItemsList todoList={todoList} />
                 <div className='center' onClick={this.createListItemCard}>
                     <img src={addCard} alt=""/>

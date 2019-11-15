@@ -5,13 +5,13 @@ class ItemCard extends React.Component {
         const { item } = this.props;  
         return (
             <div className="card z-depth-0 todo-list-link pink-lighten-3">
-                <div className="card-content grey-text text-darken-3">
-                    <span className="card-title">{item.description}</span>
-                    <span className="card-content">Assigned To: {item.assigned_to}</span>
-                    <span className="card-content">{item.due_date}</span>
+                <div className="card-content grey-text text-darken-3 row">
+                    <span className="card-title col s12">{item.description}</span>
+                    <span className="card-content col s4">Assigned To: {item.assigned_to}</span>
+                    <span className="card-content col s3">{item.due_date}</span>
                 
-                    {item.completed === true && <span className="card-completed green-text">Completed</span>}
-                    {item.completed === false && <span className="card-completed red-text">Pending</span>}
+                    {item.completed === true && <span className="card-content col s3 green-text">Completed</span>}
+                    {item.completed === false && <span className="card-content col s3 red-text">Pending</span>}
                 </div>
             </div>
         );
