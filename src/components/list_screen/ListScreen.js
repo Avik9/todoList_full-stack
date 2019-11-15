@@ -30,12 +30,12 @@ class ListScreen extends Component {
         return (
             <div className="container white">
                 <h5 className="grey-text text-darken-3">Todo List</h5>
-                <label htmlFor="email">Name</label>
                 <div className="input-field">
+                    <label class="active" htmlFor="name">Name</label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
                 </div>
-                <label htmlFor="password">Owner</label>
                 <div className="input-field">
+                    <label class="active" htmlFor="owner">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
                 </div>
                 <ItemsList todoList={todoList} />
@@ -45,20 +45,20 @@ class ListScreen extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { id } = ownProps.match.params;
-  const { todoLists } = state.firestore.data;
-  const todoList = todoLists ? todoLists[id] : null;
-  todoList.id = id;
+    const { id } = ownProps.match.params;
+    const { todoLists } = state.firestore.data;
+    const todoList = todoLists ? todoLists[id] : null;
+    todoList.id = id;
 
-  return {
-    todoList,
-    auth: state.firebase.auth,
-  };
+    return {
+        todoList,
+        auth: state.firebase.auth,
+    };
 };
 
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'todoLists' },
-  ]),
+    connect(mapStateToProps),
+    firestoreConnect([
+        { collection: 'todoLists' },
+    ]),
 )(ListScreen);

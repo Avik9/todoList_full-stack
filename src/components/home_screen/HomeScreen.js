@@ -9,9 +9,14 @@ class HomeScreen extends Component
 {
     handleNewList = () => 
     {
-        console.log(this.todolists);
-        var todoList = '';
-
+        var todoList = {
+            items: [],
+            name: '(No Name)',
+            owner: '(No Owner)',
+        }
+        
+            
+        this.props.firestore.collection('todoLists').add(todoList);
     }
 
     render() {
