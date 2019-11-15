@@ -1,6 +1,12 @@
 import React from 'react';
 
 class ItemCard extends React.Component {
+    removeListItemCard = () => {
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+            items: this.props.firestore.FieldValue.arrayRemove()
+        });
+    }
+
     render() {
         const { item } = this.props;  
         return (

@@ -24,21 +24,31 @@ class ListScreen extends Component {
         }));
     }
 
+    changeName = () => {
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+            name: 'Avik'
+        });
+    }
+
+    changeOwner = () => {
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+            owner: 'Kadakia'
+        });
+    }
+
     createListItemCard = () => {
         console.log("Creating a new item");
         var newCard = {
             description: "No Description",
             assigned_to: "No One",
-            due_date: "",
+            due_date: "12-12-2019",
             completed: true,
 
         }
         
-        console.log("New Card: " + newCard.description);
-        console.log(this.state);
-        // this.props.firestore.collection('todoLists').doc(this.props.todoList).items.push(newCard);
-        // this.props.todoList.add(newCard)
-        this.props.todoList.items.push(newCard)
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+            items: this.props.firestore.FieldValue.arrayUnion(newCard)
+        });
     }
 
     deleteList = () => {
@@ -59,12 +69,12 @@ class ListScreen extends Component {
                     <div className ="right" onClick={() => this.deleteList()}>&#128465;</div>
                 </h5>
                 <div className="input-field col s6">
-                    <label class="active" for="name">Name</label>
-                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
+                    <label className="active" htmlFor="name">Name</label>
+                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange} onBlur={this.changeName} defaultValue={todoList.name} />
                 </div>
                 <div className="input-field col s6">
-                    <label class="active" htmlFor="owner">Owner</label>
-                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
+                    <label className="active" htmlFor="owner">Owner</label>
+                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} />
                 </div>
                 <div className="row">
                     <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
