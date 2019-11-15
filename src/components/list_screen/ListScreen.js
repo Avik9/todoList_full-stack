@@ -26,13 +26,13 @@ class ListScreen extends Component {
 
     changeName = () => {
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            name: 'Avik'
+            name: this.refs.name.value
         });
     }
 
     changeOwner = () => {
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            owner: 'Kadakia'
+            owner: this.refs.owner.value
         });
     }
 
@@ -70,11 +70,11 @@ class ListScreen extends Component {
                 </h5>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="name">Name</label>
-                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange} onBlur={this.changeName} defaultValue={todoList.name} />
+                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange} onBlur={this.changeName} defaultValue={todoList.name} ref="name" />
                 </div>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="owner">Owner</label>
-                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} />
+                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner" />
                 </div>
                 <div className="row">
                     <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
