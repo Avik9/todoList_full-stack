@@ -23,7 +23,7 @@ class ItemCard extends React.Component{
                     {item.completed === true && <span className="card-content col s3 green-text">Completed</span>}
                     {item.completed === false && <span className="card-content col s3 red-text">Pending</span>}
 
-                    <Button style={{position:'relative'}} floating fab={{direction: 'left'}} className="red right" small>
+                    <Button style={{position:'relative'}} floating fab={{direction: 'left'}} className="red right" large>
                         <Button floating icon={<Icon>arrow_upward</Icon>} className="green" />
                         <Button floating icon={<Icon>arrow_downward</Icon>} className="green" />
                         <Button floating icon={<Icon>delete</Icon>} className="green" onClick={(e) => this.removeListItemCard(e)}/>

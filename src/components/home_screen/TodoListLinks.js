@@ -5,8 +5,15 @@ import { compose } from 'redux';
 import TodoListCard from './TodoListCard';
 
 class TodoListLinks extends React.Component {
-    moveUpList = () => {
-        // console.log("TodoListLinks: Opened up " + this.refs.card.key);
+    moveUpList = (id) => {
+        console.log("TodoListLinks: Opened up " + id);
+        console.log(this.props.todoLists);
+        this.props.todoLists[1] = null;
+        console.log(this.props.todoLists);
+
+        // this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+        //     items: this.props.firestore.FieldValue.arrayRemove(this.props)
+        // });
     }
 
     render() {
@@ -15,7 +22,7 @@ class TodoListLinks extends React.Component {
         return (
             <div className="todo-lists section">
                 {todoLists && todoLists.map(todoList => (
-                    <Link to={'/todoList/' + todoList.id} key={todoList.id} ref="card" onClick={this.moveUpList}>
+                    <Link to={'/todoList/' + todoList.id} key={todoList.id} onClick={() => this.moveUpList(todoList.id)}>
                         <TodoListCard todoList={todoList} />
                     </Link>
                 ))} 

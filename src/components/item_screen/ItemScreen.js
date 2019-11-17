@@ -13,11 +13,18 @@ export class ItemScreen extends Component {
         currentItem.description = this.refs.item_description_textfield.value;
         currentItem.assigned_to = this.refs.assigned_to_textfield.value;
         currentItem.due_date = this.refs.due_date_dropdown.value;
-        currentItem.completed = this.refs.completed_checkbox.value;
+        currentItem.completed = true;
 
-        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            items: this.props.firestore.FieldValue.arrayUnion(currentItem)
-        });
+        this.props.firestore.collection("todoLists")
+        .doc(this.props.todoList.id)
+        .get()
+        .then(doc => {
+            const data = doc.data();
+            data.items[currentItem.key] = currentItem;
+            this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update(
+                {items: data.items}
+        )
+    });
     }
 
     createListItemCard = () => {
@@ -25,7 +32,7 @@ export class ItemScreen extends Component {
             description: this.refs.item_description_textfield.value,
             assigned_to: this.refs.assigned_to_textfield.value,
             due_date: this.refs.due_date_dropdown.value,
-            completed: this.refs.completed_checkbox.value,
+            completed: true,
 
         }
 
