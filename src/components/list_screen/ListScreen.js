@@ -74,7 +74,7 @@ class ListScreen extends Component {
                 </div>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="owner">Owner</label>
-                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner" />
+                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner"/>
                 </div>
                 <div className="row">
                     <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
