@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Route } from 'react-router-dom'
+import { NavLink, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
@@ -36,24 +36,47 @@ class ListScreen extends Component {
         });
     }
 
-    createListItemCard = () => {
-        console.log("Creating a new item");
-        var newCard = {
-            description: "No Description",
-            assigned_to: "No One",
-            due_date: "12-12-2019",
-            completed: true,
+    // createListItemCard = () => {
+    //     console.log("Creating a new item");
+    //     var newCard = {
+    //         description: "No Description",
+    //         assigned_to: "No One",
+    //         due_date: "12-12-2019",
+    //         completed: true,
 
-        }
-        
-        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            items: this.props.firestore.FieldValue.arrayUnion(newCard)
-        });
-    }
+    //     }
+
+    //     this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
+    //         items: this.props.firestore.FieldValue.arrayUnion(newCard)
+    //     });
+    // }
 
     deleteList = () => {
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).delete();
         this.props.history.push('/');
+
+        this.hideDeleteDialog();
+    }
+
+    showDeleteDialog = () => {
+        if(document.getElementById('modal_yes_no_dialog_background_hide'))
+        {
+          document.getElementById('modal_yes_no_dialog_background_hide').id = 'modal_yes_no_dialog_background_show';
+        }
+      }
+    
+      hideDeleteDialog = () => {
+        let element = document.getElementById('modal_yes_no_dialog_background_show');
+    
+        if (element) {
+          element.id = 'modal_yes_no_dialog_background_hide';
+        }
+      }
+
+    componentDidMount()
+    {
+      document.getElementById('list_delete_list').addEventListener("click", () => this.deleteList());
+      document.getElementById('list_cancel_delete_list').addEventListener("click", () => this.hideDeleteDialog());
     }
 
     render() {
@@ -66,7 +89,7 @@ class ListScreen extends Component {
         return (
             <div className="container white row">
                 <h5 className="grey-text text-darken-3">Todo List
-                    <div className ="right" onClick={() => this.deleteList()}>&#128465;</div>
+                    <div className="right" onClick={() => this.showDeleteDialog()}>&#128465;</div>
                 </h5>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="name">Name</label>
@@ -74,7 +97,7 @@ class ListScreen extends Component {
                 </div>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="owner">Owner</label>
-                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner"/>
+                    <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner" />
                 </div>
                 <div className="row">
                     <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
@@ -82,9 +105,12 @@ class ListScreen extends Component {
                     <div className="col s3" onClick={this.sortItemsByStatus}>Status</div>
                 </div>
                 <ItemsList todoList={todoList} />
-                <div className='center' onClick={this.createListItemCard}>
-                    <img src={addCard} alt=""/>
-                </div>
+                <Link to={'/todoList/' + todoList.id + '/newItem'} key={-1}>
+                    <div className='center'>
+                        <img src={addCard} alt="" />
+                    </div>
+                </Link>
+
             </div>
         );
     }

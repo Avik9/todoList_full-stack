@@ -6,7 +6,7 @@ import TodoListCard from './TodoListCard';
 
 class TodoListLinks extends React.Component {
     moveUpList = () => {
-        console.log("TodoListLinks: Opened up " + this.refs.card.key);
+        // console.log("TodoListLinks: Opened up " + this.refs.card.key);
     }
 
     render() {
