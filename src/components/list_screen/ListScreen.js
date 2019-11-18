@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Route, Link } from 'react-router-dom'
+import { NavLink, Route, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
@@ -78,25 +78,43 @@ class ListScreen extends Component {
 
     componentWillMount() {
         // console.log("ListScreen todolist: " + this.props.todoList.name);
-        var todoList = this.props.todoList;
-        console.log("Moving " + todoList.name + " to the top");
+        // const todoList = this.props.todoList;
+        // console.log("Moving " + todoList.name + " to the top");
 
-        // this.props.firestore.collection('todoLists').add({name: 'Name', owner: 'Owner', items: []});
+        // this.props.firestore.collection('todoLists').doc(this.props.todoList.id).delete();
+
+        // console.log("Props: " + this.props);
+
+        // this.props.firestore.collection('todoLists').add(this.props.todoList);
+
+
 
         // console.log(this.props.todoLists);
     }
 
+    addTimeStamp = () => {
+        this.props.firestore.collection('todoLists').update({
+            timestamp: this.props.firestore.FieldValue.serverTimestamp()
+        });
+    }
+
     render() {
+
         const auth = this.props.auth;
         const todoList = this.props.todoList;
         if (!auth.uid) {
             return <Route exact path="/" component={HomeScreen} />
         }
 
+        if(!todoList)
+        {
+            return <Redirect to="/" />
+        }
+
         return (
-            <div className="container white row">
+            <div className="row">
                 <h5 className="grey-text text-darken-3">Todo List
-                    <div className="right" onClick={() => this.showDeleteDialog()}>&#128465;</div>
+                    <div className="right trash_icon" onClick={() => this.showDeleteDialog()}>&#128465;</div>
                 </h5>
                 <div className="input-field col s6">
                     <label className="active" htmlFor="name">Name</label>
@@ -106,14 +124,9 @@ class ListScreen extends Component {
                     <label className="active" htmlFor="owner">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} onBlur={this.changeOwner} defaultValue={todoList.owner} ref="owner" />
                 </div>
-                <div className="row">
-                    <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
-                    <div className="col s3" onClick={this.sortItemsByDueDate}>Due Date</div>
-                    <div className="col s3" onClick={this.sortItemsByStatus}>Status</div>
-                </div>
-                <ItemsList todoList={todoList} />
+                <ItemsList todoList={todoList} className="grey black-text" />
                 <Link to={'/todoList/' + todoList.id + '/newItem'} key={-1}>
-                    <div className='center'>
+                    <div className='center item-card'>
                         <img src={addCard} alt="" />
                     </div>
                 </Link>

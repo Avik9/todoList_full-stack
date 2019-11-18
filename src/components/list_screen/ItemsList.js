@@ -83,12 +83,25 @@ class ItemsList extends React.Component {
         }
     }
 
+    sortItemsByTask = () => {
+        this.props.firebase.database().ref("users").on("value", snap => {
+            console.log(snap); // this key will output users
+            console.log(snap.key); // this method will return full user
+        }); //.orderByChild();
+
+    }
+
     render() {
         const todoList = this.props.todoList;
         const items = todoList.items;
         console.log("ItemsList: todoList.id " + todoList.id);
         return (
             <div className="todo-lists section">
+                <div className="row">
+                    <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
+                    <div className="col s3" onClick={this.sortItemsByDueDate}>Due Date</div>
+                    <div className="col s3" onClick={this.sortItemsByStatus}>Status</div>
+                </div>
                 {items && items.map(item => (
                     <Link to={'/todoList/' + todoList.id + '/' + item.key} key={item.key}>
                         <ItemCard todoList={todoList} item={item} moveDown={this.moveItemDown} moveUp={this.moveItemUp} deleteItem={this.removeListItemCard} />

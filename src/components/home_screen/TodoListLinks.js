@@ -8,7 +8,7 @@ class TodoListLinks extends React.Component {
     moveListToTop = (todoList) => {
         console.log("Moving " + todoList.name + " to the top");
 
-        this.props.firestore.collection('todoLists').add({name: 'Name', owner: 'Owner', items: []});
+        this.props.firestore.collection('todoLists').add({ name: 'Name', owner: 'Owner', items: [] });
 
         console.log(this.props.todoLists);
     }
@@ -19,10 +19,10 @@ class TodoListLinks extends React.Component {
         return (
             <div className="todo-lists section">
                 {todoLists && todoLists.map(todoList => (
-                    <Link to={'/todoList/' + todoList.id} key={todoList.id} /*onClick={() => this.moveListToTop(todoList)}*/>
+                    <Link to={'/todoList/' + todoList.id} key={todoList.id} onClick={() => this.props.updateTime(todoList.id)}>
                         <TodoListCard todoList={todoList} />
                     </Link>
-                ))} 
+                ))}
             </div>
         );
     }

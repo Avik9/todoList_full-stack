@@ -5,20 +5,25 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
 
-class HomeScreen extends Component 
-{
-    handleNewList = () => 
-    {
+class HomeScreen extends Component {
+    handleNewList = () => {
         var todoList = {
             items: [],
             name: '(No Name)',
             owner: '(No Owner)',
+            timestamp: this.props.firestore.FieldValue.serverTimestamp(),
         }
-        this.props.firestore.collection('todoLists').add(todoList).then(ref => 
-            {
-                this.props.history.push('/todoList/' + ref.id);
-            });
+        this.props.firestore.collection('todoLists').add(todoList).then(ref => {
+            this.props.history.push('/todoList/' + ref.id);
+        });
     }
+
+    updateTimeStamp = (id) => {
+        console.log("Opened: " + id);
+        this.props.firestore.collection('todoLists').doc(id).update({
+            timestamp: this.props.firestore.FieldValue.serverTimestamp(),
+        });
+    };
 
     render() {
         if (!this.props.auth.uid) {
@@ -26,10 +31,10 @@ class HomeScreen extends Component
         }
 
         return (
-            <div className="dashboard container">
+            <div className="dashboard">
                 <div className="row">
-                    <div className="col s12 m4">
-                        <TodoListLinks />
+                    <div className="col m4">
+                        <TodoListLinks updateTime={this.updateTimeStamp} />
                     </div>
 
                     <div className="col s8">
@@ -59,6 +64,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'todoLists' },
+        { collection: 'todoLists', orderBy: ['timestamp', 'desc'] },
     ]),
 )(HomeScreen);

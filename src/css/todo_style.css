@@ -43,6 +43,108 @@ div.banner {
   cursor: pointer;
 }
 
+.todo-list-link {
+  background-color: transparent;
+}
+
+.todo-list-link:hover {
+  color: var(--swatch-accent);
+}
+
+.trash_icon {
+  font-size: 36pt;
+}
+
+
+  h5 {
+    font-size: 24pt;
+    line-height: 110%;
+    margin: 1.1rem 0 .656rem 0;
+    /* text-align: center; */
+  }
+  
+  .item-card {
+    background-color: var(--swatch-primary);
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #111111;
+  }
+
+  .header {
+    background-color: var(--swatch-accent);
+  }
+  
+  /* .btn-floating i {
+    height: 100px;
+    top: 50%
+  }
+
+  .fixed-action-btn.direction-left ul li, .fixed-action-btn.direction-right ul li {
+    display: inline-block;
+    margin: 45px 15px 0 0;
+  }
+  
+  .fixed-action-btn.direction-left, .fixed-action-btn.direction-right {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .btn-floating.btn-small {
+    width: 35px;
+    height: 35px;
+  }
+
+  .fixed-action-btn {
+    position: fixed;
+    right: 23px;
+    /* bottom: 23px; */ /*
+    padding-top: 15px;
+    /* margin-bottom: 0; */ /*
+    z-index: 997;
+    /* position: relative;
+    z-index: 100; 
+  } */
+
+.fixed-action-btn.direction-left ul, .fixed-action-btn.direction-right ul {
+	text-align: right;
+	/* right: 90px; */
+	/* top: 70%; */
+	transform: translateY(-50%);
+	height: 100%;
+	/* left: auto; */
+	/* width: 500px; */
+	padding-right: 10px;
+	padding-top: 3px;
+}
+
+.fixed-action-btn{
+  position: relative;
+  z-index: 100;
+}
+
+.floating-action-btn {
+  padding-top: 20px;
+}
+
+
+/* materialize.min.css | https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css */
+
+.btn-floating i {
+  height: 100px;
+}
+
+.fixed-action-btn.direction-left, .fixed-action-btn.direction-right {
+  /* padding: 0 0 0 15px; */
+  padding: 20px;
+}
+
+.btn-floating.btn-small {
+  /* width: 32.4px; */
+  /* height: 32.4px; */
+  width: 35px;
+  height: 35px;
+}
+
   /* ANIMATIONS
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   [data-animation] .modal_dialog #modal_yes_no_dialog_background_show{
