@@ -10,6 +10,7 @@ import HomeScreen from '../home_screen/HomeScreen';
 var addCard = require('./../../images/Add.png');
 
 class ListScreen extends Component {
+
     state = {
         name: '',
         owner: '',
@@ -25,31 +26,28 @@ class ListScreen extends Component {
     }
 
     changeName = () => {
+        var listName = this.refs.name.value
+
+        if (listName === '') {
+            listName = '(No Name)'
+        }
+
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            name: this.refs.name.value
+            name: listName
         });
     }
 
     changeOwner = () => {
+        var listOwner = this.refs.owner.value
+
+        if (listOwner === '') {
+            listOwner = '(No Owner)'
+        }
+
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            owner: this.refs.owner.value
+            owner: listOwner
         });
     }
-
-    // createListItemCard = () => {
-    //     console.log("Creating a new item");
-    //     var newCard = {
-    //         description: "No Description",
-    //         assigned_to: "No One",
-    //         due_date: "12-12-2019",
-    //         completed: true,
-
-    //     }
-
-    //     this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update({
-    //         items: this.props.firestore.FieldValue.arrayUnion(newCard)
-    //     });
-    // }
 
     deleteList = () => {
         this.props.firestore.collection('todoLists').doc(this.props.todoList.id).delete();
@@ -59,24 +57,33 @@ class ListScreen extends Component {
     }
 
     showDeleteDialog = () => {
-        if(document.getElementById('modal_yes_no_dialog_background_hide'))
-        {
-          document.getElementById('modal_yes_no_dialog_background_hide').id = 'modal_yes_no_dialog_background_show';
+        if (document.getElementById('modal_yes_no_dialog_background_hide')) {
+            document.getElementById('modal_yes_no_dialog_background_hide').id = 'modal_yes_no_dialog_background_show';
         }
-      }
-    
-      hideDeleteDialog = () => {
-        let element = document.getElementById('modal_yes_no_dialog_background_show');
-    
-        if (element) {
-          element.id = 'modal_yes_no_dialog_background_hide';
-        }
-      }
+    }
 
-    componentDidMount()
-    {
-      document.getElementById('list_delete_list').addEventListener("click", () => this.deleteList());
-      document.getElementById('list_cancel_delete_list').addEventListener("click", () => this.hideDeleteDialog());
+    hideDeleteDialog = () => {
+        let element = document.getElementById('modal_yes_no_dialog_background_show');
+
+        if (element) {
+            element.id = 'modal_yes_no_dialog_background_hide';
+        }
+    }
+
+    componentDidMount() {
+        document.getElementById('list_delete_list').addEventListener("click", () => this.deleteList());
+        document.getElementById('list_cancel_delete_list').addEventListener("click", () => this.hideDeleteDialog());
+    }
+
+
+    componentWillMount() {
+        // console.log("ListScreen todolist: " + this.props.todoList.name);
+        var todoList = this.props.todoList;
+        console.log("Moving " + todoList.name + " to the top");
+
+        // this.props.firestore.collection('todoLists').add({name: 'Name', owner: 'Owner', items: []});
+
+        // console.log(this.props.todoLists);
     }
 
     render() {
@@ -110,7 +117,6 @@ class ListScreen extends Component {
                         <img src={addCard} alt="" />
                     </div>
                 </Link>
-
             </div>
         );
     }

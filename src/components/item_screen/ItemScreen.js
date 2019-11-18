@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Checkbox } from 'react-materialize';
 import { Link } from 'react-router-dom';
 
 export class ItemScreen extends Component {
@@ -13,18 +12,18 @@ export class ItemScreen extends Component {
         currentItem.description = this.refs.item_description_textfield.value;
         currentItem.assigned_to = this.refs.assigned_to_textfield.value;
         currentItem.due_date = this.refs.due_date_dropdown.value;
-        currentItem.completed = true;
+        currentItem.completed = this.refs.completed.checked;
 
         this.props.firestore.collection("todoLists")
-        .doc(this.props.todoList.id)
-        .get()
-        .then(doc => {
-            const data = doc.data();
-            data.items[currentItem.key] = currentItem;
-            this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update(
-                {items: data.items}
-        )
-    });
+            .doc(this.props.todoList.id)
+            .get()
+            .then(doc => {
+                const data = doc.data();
+                data.items[currentItem.key] = currentItem;
+                this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update(
+                    { items: data.items }
+                )
+            });
     }
 
     createListItemCard = () => {
@@ -32,17 +31,14 @@ export class ItemScreen extends Component {
             description: this.refs.item_description_textfield.value,
             assigned_to: this.refs.assigned_to_textfield.value,
             due_date: this.refs.due_date_dropdown.value,
-            completed: true,
-
+            completed: this.refs.completed.checked,
         }
 
-        if(newCard.description === '')
-        {
+        if (newCard.description === '') {
             newCard.description = 'No Description';
         }
 
-        if(newCard.assigned_to === '')
-        {
+        if (newCard.assigned_to === '') {
             newCard.assigned_to = 'Not Assigned';
         }
 
@@ -70,11 +66,12 @@ export class ItemScreen extends Component {
                         <span id="due_date_prompt">Due Date:</span>
                         <input type="date" defaultValue={item.due_date} ref="due_date_dropdown" />
                     </div>
-                    <div id="completed_container" className="text_toolbar">
+                    <label>
                         <span id="completed_prompt">Completed:</span>
-                        <Checkbox defaultChecked={item.completed} ref="completed_checkbox" />
+                        <input type="checkbox" ref="completed" defaultChecked={item.completed} /><span />
+                    </label>
 
-                    </div>
+
                     <div id="list_submit_buttons">
                         <button id="list_submit_list" onClick={this.submitItemChanges}><Link to={'/todoList/' + this.props.todoList.id}>Submit</Link></button>
                         <button id="list_cancel_submit_list"><Link to={'/todoList/' + this.props.todoList.id}>Cancel</Link></button>
@@ -98,10 +95,10 @@ export class ItemScreen extends Component {
                         <span id="due_date_prompt">Due Date:</span>
                         <input type="date" defaultValue={""} ref="due_date_dropdown" />
                     </div>
-                    <div id="completed_container" class="text_toolbar">
+                    <label>
                         <span id="completed_prompt">Completed:</span>
-                        <Checkbox defaultChecked={false} ref="completed_checkbox" />
-                    </div>
+                        <input type="checkbox" ref="completed" defaultChecked={false} /><span />
+                    </label>
                     <div id="list_submit_buttons">
                         <button id="list_submit_list" onClick={this.createListItemCard}><Link to={'/todoList/' + this.props.todoList.id}>Submit</Link></button>
                         <button id="list_cancel_submit_list"><Link to={'/todoList/' + this.props.todoList.id}>Cancel</Link></button>
@@ -119,10 +116,6 @@ const mapStateToProps = (state, ownProps) => {
     todoList.id = id;
     const itemNum = ownProps.match.params.key;
     const item = todoList.items[itemNum]
-
-    console.log('itemNum: ' + itemNum)
-    console.log('item:' + item)
-
 
     return {
         itemNum,
