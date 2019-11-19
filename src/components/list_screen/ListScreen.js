@@ -75,23 +75,6 @@ class ListScreen extends Component {
         document.getElementById('list_cancel_delete_list').addEventListener("click", () => this.hideDeleteDialog());
     }
 
-
-    componentWillMount() {
-        // console.log("ListScreen todolist: " + this.props.todoList.name);
-        // const todoList = this.props.todoList;
-        // console.log("Moving " + todoList.name + " to the top");
-
-        // this.props.firestore.collection('todoLists').doc(this.props.todoList.id).delete();
-
-        // console.log("Props: " + this.props);
-
-        // this.props.firestore.collection('todoLists').add(this.props.todoList);
-
-
-
-        // console.log(this.props.todoLists);
-    }
-
     addTimeStamp = () => {
         this.props.firestore.collection('todoLists').update({
             timestamp: this.props.firestore.FieldValue.serverTimestamp()

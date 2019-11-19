@@ -83,13 +83,35 @@ class ItemsList extends React.Component {
         }
     }
 
-    sortItemsByTask = () => {
-        this.props.firebase.database().ref("users").on("value", snap => {
-            console.log(snap); // this key will output users
-            console.log(snap.key); // this method will return full user
-        }); //.orderByChild();
+    sortItems = (todoList, sortBy, isIncreasing) => {
+        todoList.items.sort(
+            (item1, item2) => {
+                
+                // check for increasing or decreasing
 
-    }
+                if(!isIncreasing) {
+                    let temp = item1;
+                    item1 = item2;
+                    item2 = temp;
+                }
+
+                if(item1[sortBy] < item2[sortBy]) return -1;
+                else if(item1[sortBy] > item2[sortBy]) return 1;
+                else return 0;
+        });
+
+        for (let i = 0; i < todoList.items.length; i++) {
+            todoList.items[i].key = i;
+        }
+
+        this.props.firestore.collection('todoLists').doc(this.props.todoList.id).update(
+            { 
+                items: todoList.items,
+                isIncreasing: !isIncreasing,
+             }
+        )
+
+    };
 
     render() {
         const todoList = this.props.todoList;
@@ -98,9 +120,15 @@ class ItemsList extends React.Component {
         return (
             <div className="todo-lists section">
                 <div className="row">
-                    <div className="col s3" onClick={this.sortItemsByTask}>Task</div>
-                    <div className="col s3" onClick={this.sortItemsByDueDate}>Due Date</div>
-                    <div className="col s3" onClick={this.sortItemsByStatus}>Status</div>
+                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "description", todoList.isIncreasing)}>Task</div>
+                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "due_date", todoList.isIncreasing)}>Due Date</div>
+                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "completed", todoList.isIncreasing)}>Status</div>
+                    <div className="col s3 header">&nbsp;</div>
+                </div>
+                <div className="list_item_header_card">
+                    <div className="list_item_task_header col s3 header" onClick={() => this.sortItems(todoList, "description", todoList.isIncreasing)}>Task</div>
+                    <div className="list_item_due_date_header col s3 header" onClick={() => this.sortItems(todoList, "due_date", todoList.isIncreasing)}>Due Date</div>
+                    <div className="list_item_status_header col s3 header" onClick={() => this.sortItems(todoList, "completed", todoList.isIncreasing)}>Status</div>
                 </div>
                 {items && items.map(item => (
                     <Link to={'/todoList/' + todoList.id + '/' + item.key} key={item.key}>

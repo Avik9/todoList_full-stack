@@ -12,6 +12,7 @@ class HomeScreen extends Component {
             name: '(No Name)',
             owner: '(No Owner)',
             timestamp: this.props.firestore.FieldValue.serverTimestamp(),
+            isIncreasing: false,
         }
         this.props.firestore.collection('todoLists').add(todoList).then(ref => {
             this.props.history.push('/todoList/' + ref.id);

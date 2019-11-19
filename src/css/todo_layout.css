@@ -91,3 +91,14 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 	left: auto;
 	width: 500px;
 }
+
+.list_item_header_card {
+  position: relative;
+  height: 50px;
+  grid-row-gap: 0px;
+  grid-column-gap: 50px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  }
