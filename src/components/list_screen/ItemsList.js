@@ -87,8 +87,6 @@ class ItemsList extends React.Component {
         todoList.items.sort(
             (item1, item2) => {
                 
-                // check for increasing or decreasing
-
                 if(!isIncreasing) {
                     let temp = item1;
                     item1 = item2;
@@ -119,12 +117,7 @@ class ItemsList extends React.Component {
         console.log("ItemsList: todoList.id " + todoList.id);
         return (
             <div className="todo-lists section">
-                <div className="row">
-                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "description", todoList.isIncreasing)}>Task</div>
-                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "due_date", todoList.isIncreasing)}>Due Date</div>
-                    <div className="col s3 header" onClick={() => this.sortItems(todoList, "completed", todoList.isIncreasing)}>Status</div>
-                    <div className="col s3 header">&nbsp;</div>
-                </div>
+                <div className="row" />
                 <div className="list_item_header_card">
                     <div className="list_item_task_header col s3 header" onClick={() => this.sortItems(todoList, "description", todoList.isIncreasing)}>Task</div>
                     <div className="list_item_due_date_header col s3 header" onClick={() => this.sortItems(todoList, "due_date", todoList.isIncreasing)}>Due Date</div>

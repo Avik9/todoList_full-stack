@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Route, Link, Redirect } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'

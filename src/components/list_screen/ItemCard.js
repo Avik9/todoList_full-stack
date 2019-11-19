@@ -1,6 +1,5 @@
 import React from 'react';
-import ListScreen from './ListScreen';
-import { Icon, Button, M } from 'react-materialize';
+import { Icon, Button } from 'react-materialize';
 
 class ItemCard extends React.Component {
     render() {
