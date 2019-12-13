@@ -106,7 +106,7 @@ class ItemsList extends React.Component {
             { 
                 items: todoList.items,
                 isIncreasing: !isIncreasing,
-             }
+            }
         )
 
     };
